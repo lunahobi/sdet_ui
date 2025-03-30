@@ -6,7 +6,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static helpers.Wait.waitThenClick;
@@ -47,7 +49,7 @@ public class CustomersPage extends BasePage{
         return this;
     }
 
-    private List<String> getAllFirstNames() {
+    public List<String> getAllFirstNames() {
         return customerRows.stream()
                 .map(row -> row.findElement(By.xpath("./td[1]")).getText())
                 .collect(Collectors.toList());
@@ -71,5 +73,50 @@ public class CustomersPage extends BasePage{
             }
         }
         return true;
+    }
+
+    public List<String> getCustomerNames() {
+        return customerRows.stream()
+                .map(row -> row.findElement(By.xpath("./td[1]")).getText())
+                .toList();
+    }
+
+    @Step("Найти имя с длиной, ближайшей к средней")
+    public Optional<String> findNameWithClosestToAverageLength() {
+        List<String> names = getCustomerNames();
+        if (names.isEmpty()) {
+            return Optional.empty();
+        }
+
+        double averageLength = calculateAverageNameLength(names);
+        System.out.println(averageLength);
+        return findClosestToAverage(names, averageLength);
+    }
+
+    @Step("Удалить клиента с именем: {nameToDelete}")
+    public void deleteCustomer(String nameToDelete) {
+        customerRows.stream()
+                .filter(row -> row.findElement(By.xpath("./td[1]")).getText().equals(nameToDelete))
+                .findFirst()
+                .ifPresent(row -> row.findElement(By.xpath("./td[5]/button")).click());
+    }
+
+    @Step("Проверить, что клиент {name} отсутствует в таблице")
+    public boolean isCustomerDeleted(String name) {
+        return getCustomerNames().stream()
+                .noneMatch(n -> n.equals(name));
+    }
+
+    private double calculateAverageNameLength(List<String> names) {
+        return names.stream()
+                .mapToInt(String::length)
+                .average()
+                .orElse(0);
+    }
+
+    private Optional<String> findClosestToAverage(List<String> names, double average) {
+        return names.stream()
+                .min(Comparator.comparingDouble(
+                        name -> Math.abs(name.length() - average)));
     }
 }
