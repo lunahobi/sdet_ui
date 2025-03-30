@@ -44,6 +44,16 @@
         </profile>
 
         <profile>
+            <id>tests_parallel</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <suite.xml.file>src/test/resources/suites/testng_parallel.xml</suite.xml.file>
+            </properties>
+        </profile>
+
+        <profile>
             <id>env_local</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
