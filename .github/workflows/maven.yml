@@ -27,9 +27,9 @@ jobs:
         uses: GabrielBB/xvfb-action@v1
         with:
           run: |
-            mvn clean test \
-              -Dwebdriver.chrome.driver=/usr/bin/chromedriver \
-              -Dchrome.binary=/usr/bin/chromium-browser \
+            mvn clean test
+              -Dwebdriver.chrome.driver=/usr/bin/chromedriver
+              -Dchrome.binary=/usr/bin/chromium-browser
               -Dchrome.headless=true
           continue-on-error: false
 
