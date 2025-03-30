@@ -8,32 +8,44 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
-      - name: "Использование ветки main репозитория"
+      - name: Checkout code
         uses: actions/checkout@v3
-      - name: "Install dependencies"
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Install Chrome and dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y chromium-browser xvfb
+          sudo apt-get install -y chromium-browser chromium-chromedriver xvfb
+          sudo ln -s /usr/bin/chromedriver /usr/local/bin/chromedriver
 
-      - name: "Run tests with Xvfb"
+      - name: Run tests
         uses: GabrielBB/xvfb-action@v1
         with:
-          run: mvn clean test
-          continue-on-error: true
-      - name: "Генерация allure-report"
+          run: |
+            mvn clean test \
+              -Dwebdriver.chrome.driver=/usr/bin/chromedriver \
+              -Dchrome.binary=/usr/bin/chromium-browser \
+              -Dchrome.headless=true
+          continue-on-error: false
+
+      - name: Generate Allure report
+        if: always()
         uses: simple-elf/allure-report-action@master
-        id: allure-report
         with:
           allure_results: target/allure-results
           gh_pages: gh-pages
           allure_report: target/allure-report
           allure_history: target/allure-history
 
-      - name: "Создание ветки gh-pages содержащей allure report"
+      - name: Deploy to GitHub Pages
+        if: always()
         uses: peaceiris/actions-gh-pages@v3
         with:
-          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-          PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PUBLISH_BRANCH: gh-pages
-          PUBLISH_DIR: target/allure-history
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: target/allure-history
