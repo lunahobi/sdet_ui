@@ -6,7 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.ITestContext;
-import org.testng.annotations.AfterTest;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
 import java.time.Duration;
@@ -23,7 +23,6 @@ public class BaseTest {
         switch (browserName){
             case "chrome" -> driver = new ChromeDriver(new ChromeOptions()
                     .addArguments("--remote-allow-origins=*")
-                    .addArguments(" disable gpu")
                     .addArguments("--start-maximized"));
             default -> throw  new IllegalStateException("Unexpected value: " + browserName);
         }
@@ -37,7 +36,7 @@ public class BaseTest {
         driver.get(webUrl);
     }
 
-    @AfterTest
+    @AfterClass
     public final void tearDown(){
         driver.quit();
     }
