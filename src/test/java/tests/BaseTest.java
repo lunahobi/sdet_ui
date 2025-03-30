@@ -23,7 +23,12 @@ public class BaseTest {
         switch (browserName){
             case "chrome" -> driver = new ChromeDriver(new ChromeOptions()
                     .addArguments("--remote-allow-origins=*")
-                    .addArguments("--start-maximized"));
+                    .addArguments("--start-maximized")
+                    .addArguments("--no-sandbox")
+                    .addArguments("--disable-dev-shm-usage")
+                    .addArguments("--headless=new")
+                    .addArguments("--disable-gpu")
+            );
             default -> throw  new IllegalStateException("Unexpected value: " + browserName);
         }
 
