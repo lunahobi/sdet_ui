@@ -11,13 +11,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static helpers.Wait.waitThenClick;
 import static helpers.Wait.waitUntilVisible;
 
 public class CustomersPage extends BasePage{
 
     @FindBy(xpath = "//a[contains(@ng-click, 'fName')]")
-    WebElement sortByFirstName;
+    private WebElement sortByFirstName;
 
     @FindBy(xpath = "//tbody/tr")
     private List<WebElement> customerRows;
@@ -26,6 +25,7 @@ public class CustomersPage extends BasePage{
         super(webDriver);
     }
 
+    @Step("Перейти на страницу Customers")
     public CustomersPage waitUntilOpen() {
         checkOpenPage();
         clickCustomersButton();
@@ -33,6 +33,7 @@ public class CustomersPage extends BasePage{
         return this;
     }
 
+    @Step("Проверить, что клиент отображается в таблице Customers")
     public boolean isCustomerPresent(String firstName, String lastName, String postCode) {
         return customerRows.stream()
                 .anyMatch(row -> {
@@ -45,16 +46,17 @@ public class CustomersPage extends BasePage{
 
     @Step("Нажать на First Name")
     public CustomersPage clickFirstName() {
-        waitThenClick(driver, sortByFirstName);
+        sortByFirstName.click();
         return this;
     }
 
-    public List<String> getAllFirstNames() {
+    private List<String> getAllFirstNames() {
         return customerRows.stream()
                 .map(row -> row.findElement(By.xpath("./td[1]")).getText())
                 .collect(Collectors.toList());
     }
 
+    @Step("Проверить, что сортировка по возрастанию")
     public boolean isSortedAscending() {
         List<String> names = getAllFirstNames();
         for (int i = 0; i < names.size() - 1; i++) {
@@ -65,6 +67,7 @@ public class CustomersPage extends BasePage{
         return true;
     }
 
+    @Step("Проверить, что сортировка по убыванию")
     public boolean isSortedDescending() {
         List<String> names = getAllFirstNames();
         for (int i = 0; i < names.size() - 1; i++) {
@@ -75,15 +78,9 @@ public class CustomersPage extends BasePage{
         return true;
     }
 
-    public List<String> getCustomerNames() {
-        return customerRows.stream()
-                .map(row -> row.findElement(By.xpath("./td[1]")).getText())
-                .toList();
-    }
-
     @Step("Найти имя с длиной, ближайшей к средней")
     public Optional<String> findNameWithClosestToAverageLength() {
-        List<String> names = getCustomerNames();
+        List<String> names = getAllFirstNames();
         if (names.isEmpty()) {
             return Optional.empty();
         }
@@ -103,7 +100,7 @@ public class CustomersPage extends BasePage{
 
     @Step("Проверить, что клиент {name} отсутствует в таблице")
     public boolean isCustomerDeleted(String name) {
-        return getCustomerNames().stream()
+        return getAllFirstNames().stream()
                 .noneMatch(n -> n.equals(name));
     }
 

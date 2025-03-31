@@ -5,7 +5,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import static helpers.Wait.waitThenClick;
 import static helpers.Wait.waitUntilVisible;
 
 public class AddCustomerPage extends BasePage{
@@ -26,24 +25,21 @@ public class AddCustomerPage extends BasePage{
         super(webDriver);
     }
 
+    @Step("Перейти на страницу Add Customer")
     public AddCustomerPage waitUntilOpen() {
         checkOpenPage();
         clickAddCustomerButton();
+        waitUntilVisible(driver, firstNameInput); //ожидание загрузки страницы
         return this;
     }
 
-    @Step("Добавить пользователя")
+    @Step("Добавить пользователя {firstName}")
     public AddCustomerPage addCustomer(String firstName, String lastName, String postCode) {
-        waitUntilVisible(driver, firstNameInput);
-        waitUntilVisible(driver, lastNameInput);
-        waitUntilVisible(driver, postCodeInput);
         firstNameInput.sendKeys(firstName);
         lastNameInput.sendKeys(lastName);
         postCodeInput.sendKeys(postCode);
-        waitThenClick(driver, submitButton);
+        submitButton.click();
         return this;
     }
-
-
 
 }

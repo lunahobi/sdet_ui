@@ -1,5 +1,6 @@
 package pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
@@ -16,7 +17,7 @@ public class BasePage {
     MenuElement menuElement;
 
     @FindBy(className = "mainHeading")
-    WebElement header;
+    private WebElement header;
 
 
     public BasePage(final WebDriver webDriver) {
@@ -41,6 +42,7 @@ public class BasePage {
         menuElement.clickCustomersButton();
     }
 
+    @Step("Проверить, что Alert отображается")
     public static boolean isAlertPresent(WebDriver driver) {
         try {
             driver.switchTo().alert();
@@ -50,11 +52,13 @@ public class BasePage {
         }
     }
 
+    @Step("Получить текст Alert")
     public static String getAlertText(WebDriver driver) {
         Alert alert = driver.switchTo().alert();
         return alert.getText();
     }
 
+    @Step("Принять Alert")
     public static void acceptAlert(WebDriver driver) {
         driver.switchTo().alert().accept();
     }

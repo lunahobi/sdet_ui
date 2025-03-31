@@ -5,17 +5,15 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-import static helpers.Wait.waitThenClick;
-
 public class MenuElement {
 
     WebDriver driver;
 
     @FindBy(xpath = "//button[@ng-class='btnClass1']")
-    static WebElement addCustomerButton;
+    private static WebElement addCustomerButton;
 
     @FindBy(xpath = "//button[@ng-class='btnClass3']")
-    static WebElement customersButton;
+    private static WebElement customersButton;
 
     public MenuElement(WebDriver webDriver) {
         try {
@@ -27,11 +25,11 @@ public class MenuElement {
     }
 
     public void clickAddCustomerButton() {
-        waitThenClick(driver, addCustomerButton);
+        addCustomerButton.click();
     }
 
     public void clickCustomersButton() {
-        waitThenClick(driver, customersButton);
+        customersButton.click();
     }
 
     public static boolean isAddCustomerPageOpen() {
