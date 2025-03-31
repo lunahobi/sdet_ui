@@ -30,19 +30,12 @@ public class BasePage {
         }
     }
 
+    @Step("Ожидание загрузки страницы менеджера банка")
     public void checkOpenPage() {
         waitUntilVisible(driver, header);
     }
 
-    public void clickAddCustomerButton() {
-        menuElement.clickAddCustomerButton();
-    }
-
-    public void clickCustomersButton() {
-        menuElement.clickCustomersButton();
-    }
-
-    @Step("Проверить, что Alert отображается")
+    @Step("Отображается ли alert на странице?")
     public static boolean isAlertPresent(WebDriver driver) {
         try {
             driver.switchTo().alert();

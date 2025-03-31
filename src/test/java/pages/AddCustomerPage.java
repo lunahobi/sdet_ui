@@ -28,7 +28,7 @@ public class AddCustomerPage extends BasePage{
     @Step("Перейти на страницу Add Customer")
     public AddCustomerPage waitUntilOpen() {
         checkOpenPage();
-        clickAddCustomerButton();
+        menuElement.clickAddCustomerButton();
         waitUntilVisible(driver, firstNameInput); //ожидание загрузки страницы
         return this;
     }

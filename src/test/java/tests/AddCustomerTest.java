@@ -30,14 +30,11 @@ public class AddCustomerTest extends BaseTest{
         };
     }
 
-    @Test(description = "Add customer", dataProvider = "Customer information")
+    @Test(description = "Add customer with generated post code and first name", dataProvider = "Customer information")
     public final void addCustomer(String firstName, String lastName, String postCode){
         AddCustomerPage addCustomerPage = new AddCustomerPage(driver);
         addCustomerPage.waitUntilOpen().
                 addCustomer(firstName, lastName, postCode);
-
-        System.out.println(firstName + " " + lastName + " " + postCode);
-
 
         Assert.assertTrue(isAlertPresent(driver), "Alert is not present");
 

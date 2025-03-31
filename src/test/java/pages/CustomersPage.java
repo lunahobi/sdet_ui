@@ -28,12 +28,12 @@ public class CustomersPage extends BasePage{
     @Step("Перейти на страницу Customers")
     public CustomersPage waitUntilOpen() {
         checkOpenPage();
-        clickCustomersButton();
+        menuElement.clickCustomersButton();
         waitUntilVisible(driver, sortByFirstName);
         return this;
     }
 
-    @Step("Проверить, что клиент отображается в таблице Customers")
+    @Step("Отображается ли клиент в таблице Customers?")
     public boolean isCustomerPresent(String firstName, String lastName, String postCode) {
         return customerRows.stream()
                 .anyMatch(row -> {
@@ -56,7 +56,7 @@ public class CustomersPage extends BasePage{
                 .collect(Collectors.toList());
     }
 
-    @Step("Проверить, что сортировка по возрастанию")
+    @Step("Сортировка по возрастанию?")
     public boolean isSortedAscending() {
         List<String> names = getAllFirstNames();
         for (int i = 0; i < names.size() - 1; i++) {
@@ -67,7 +67,7 @@ public class CustomersPage extends BasePage{
         return true;
     }
 
-    @Step("Проверить, что сортировка по убыванию")
+    @Step("Сортировка по убыванию?")
     public boolean isSortedDescending() {
         List<String> names = getAllFirstNames();
         for (int i = 0; i < names.size() - 1; i++) {
@@ -98,7 +98,7 @@ public class CustomersPage extends BasePage{
                 .ifPresent(row -> row.findElement(By.xpath("./td[5]/button")).click());
     }
 
-    @Step("Проверить, что клиент {name} отсутствует в таблице")
+    @Step("Клиент {name} отсутствует в таблице?")
     public boolean isCustomerDeleted(String name) {
         return getAllFirstNames().stream()
                 .noneMatch(n -> n.equals(name));
