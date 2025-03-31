@@ -1,0 +1,6 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","294","Sort by First Name","autoTests","Mon Mar 31 10:04:17 GMT 2025","passed","Mon Mar 31 10:04:17 GMT 2025","tests.CustomersTest","Tests","tests.CustomersTest","sortByFirstName"
+"","584","Add customer with generated post code and first name","autoTests","Mon Mar 31 10:04:14 GMT 2025","passed","Mon Mar 31 10:04:14 GMT 2025","tests.AddCustomerTest","Tests","tests.AddCustomerTest","addCustomer"
+"","486","Add customer with generated post code and first name","autoTests","Mon Mar 31 10:04:14 GMT 2025","passed","Mon Mar 31 10:04:15 GMT 2025","tests.AddCustomerTest","Tests","tests.AddCustomerTest","addCustomer"
+"","2026","Add customer with generated post code and first name","autoTests","Mon Mar 31 10:04:12 GMT 2025","passed","Mon Mar 31 10:04:14 GMT 2025","tests.AddCustomerTest","Tests","tests.AddCustomerTest","addCustomer"
+"","1352","Delete Client","autoTests","Mon Mar 31 10:04:15 GMT 2025","passed","Mon Mar 31 10:04:17 GMT 2025","tests.CustomersTest","Tests","tests.CustomersTest","deleteClient"
